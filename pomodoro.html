@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">  
+</head>
+  <body>
+    <!-- NAVBAR STARTS -->
+<nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="dashboard.html">StudySync</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="assignments.html">Assignments</a></li>
+                <li class="nav-item"><a class="nav-link" href="notes.html">Notes</a></li>
+                <li class="nav-item"><a class="nav-link" href="timetable.html">Timetable</a></li>
+                <li class="nav-item"><a class="nav-link" href="progress.html">Progress</a></li>
+                <li class="nav-item"><a class="nav-link" href="goals.html">Goals</a></li>
+            </ul>
+
+            <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-bell fs-5"></i>
+                <i class="bi bi-person-circle fs-4"></i>
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- NAVBAR ENDS -->
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">Pomodoro Timer</h1>
+        <p class="text-muted">Stay focused. Study smarter.</p>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm text-center p-5">
+                <h5 class="text-muted mb-3">Focus Session</h5>
+                <h1 class="display-1 fw-bold text-primary">
+                    25:00
+                </h1>
+                <div class="d-flex justify-content-center gap-3 mt-4">
+                    <button class="btn btn-success btn-lg">
+                        <i class="bi bi-play-fill me-2"></i>
+                        Start
+                    </button>
+                    <button class="btn btn-warning btn-lg text-white">
+                        <i class="bi bi-pause-fill me-2"></i>
+                        Pause
+                    </button>
+                    <button class="btn btn-danger btn-lg">
+                        <i class="bi bi-arrow-clockwise me-2"></i>
+                        Reset
+                    </button>
+                </div>
+                <hr class="my-5">
+                <div class="row text-center">
+                    <div class="col">
+                        <h3 class="fw-bold">8</h3>
+                        <p class="text-muted mb-0">Sessions</p>
+                    </div>
+                    <div class="col">
+                        <h3 class="fw-bold">4h</h3>
+                        <p class="text-muted mb-0">Focused</p>
+                    </div>
+                    <div class="col">
+                        <h3 class="fw-bold">12</h3>
+                        <p class="text-muted mb-0">Breaks</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  </body>
+</html>
