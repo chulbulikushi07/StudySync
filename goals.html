@@ -46,20 +46,76 @@
             </p>
         </div>
 
-        <button class="btn btn-primary">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@asarath">
             <i class="bi bi-plus-circle me-2"></i>
             Add Goal
         </button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header border-0 pb-0">
+                <h4 class="modal-title fw-bold" id="exampleModalLabel">
+                    <i class="bi bi-bullseye text-primary me-2"></i>
+                    Add Goal
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body pt-3">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Goal Name</label>
+                        <input type="text" class="form-control" placeholder="e.g. Get 8.0 CGPA">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Goal Type</label>
+                        <select class="form-select">
+                            <option selected disabled>Select Goal Type</option>
+                            <option>Daily</option>
+                            <option>Weekly</option>
+                            <option>Monthly</option>
+                            <option>Semester</option>
+                            <option>Personal</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Target Date</label>
+                        <input type="date" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Progress (%)</label>
+                        <input type="range" class="form-range" min="0" max="100" value="0">
+                    </div>
+                    <div>
+                        <label class="form-label fw-semibold">Description</label>
+                        <textarea class="form-control" rows="3" placeholder="Describe your goal..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-primary px-4">
+                    <i class="bi bi-check-circle me-2"></i>
+                    Save Goal
+                </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     </div>
     <div class="row g-4">
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
-                    <h5 class="fw-bold">Maintain 8.5 CGPA</h5>
+                    <h5 class="fw-bold">Get 7.5 CGPA</h5>
                     <p class="text-muted">Semester Goal</p>
 
                     <div class="progress mb-3">
-                        <div class="progress-bar bg-success" style="width:85%"></div>
+                        <div class="progress-bar bg-success" style="width:45%"></div>
                     </div>
 
                     <span class="badge bg-success">On Track</span>

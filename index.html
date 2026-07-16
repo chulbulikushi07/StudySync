@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="css/style.css">
     </head>
   <body>
-    <!-- NAVBAR STARTS -->
+<!-- NAVBAR STARTS -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
     <div class="container-fluid">
-        <a class="navbar-brand ms-3" href="#">
+        <a class="navbar-brand ms-3" href="index.html">
             <img src="" alt="StudySync Logo" style="height: 80px; width: 90px;">
         </a>
         <button class="navbar-toggler" type="button"
@@ -26,20 +26,22 @@
                     <a class="nav-link active px-3" href="index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link px-3" href="#">Features</a>
+                    <a class="nav-link px-3" href="#features">Features</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link px-3" href="#">About</a>
+                    <a class="nav-link px-3" href="#about">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link px-3" href="#">Contact Us</a>
+                    <a class="nav-link px-3" href="#contact">Contact Us</a>
                 </li>
             </ul>
-            <a class="btn btn-light btn-outline-primary shadow-sm rounded me-3" href="#">Login</a>
+            <a class="btn btn-light btn-outline-primary shadow-sm rounded me-3" href="dashboard.html">
+                Dashboard
+            </a>
         </div>
     </div>
-</nav>        
-    <!-- NAVBAR ENDS -->
+</nav>
+<!-- NAVBAR ENDS -->
 
     <!-- HERO SECTION STARTS -->
      <div class="container hero-section">
@@ -49,11 +51,17 @@
                 <p class="lead text-muted mb-4">Manage your assignments, notes, timetable, and study sessions all in one place.
                    StudySync helps students stay organized, productive, and focused with a clean and intuitive interface
                 </p>
-                <button type="button" class="btn btn-primary btn-lg me-3">Get Started</button>
-                <button type="button" class="btn btn-outline-primary btn-lg">Learn More</button>
+                <a href="dashboard.html" class="btn btn-primary btn-lg me-3">
+                    Get Started
+                </a>
+                <a href="#features" class="btn btn-outline-primary btn-lg">
+                    Learn More
+                </a>
             </div>
             <div class="col-lg-6">
-                <img src="img/heroimg.avif" class="img-fluid d-block mx-auto" style="max-height:350px;">
+                <a href="dashboard.html">
+                    <img src="img/heroimg.avif" class="img-fluid d-block mx-auto" style="max-height:350px;">
+                </a>
             </div>
         </div>
      </div>
@@ -61,7 +69,7 @@
 
 
      <!-- FEATURES SECTION STARTS -->
-<div class="container my-5">
+<div class="container my-5" id = "features">
     <h2 class="text-center mb-5">Our Features</h2>
     <div class="row">
         <!-- Assignment Manager -->
@@ -140,7 +148,7 @@
 </div>
 <!-- FEATURES SECTION ENDS -->
 <!-- WHY CHOOSE STUDYSYNC STARTS -->
-<div class="container why-choose">
+<div class="container why-choose" id="about">
     <div class="row align-items-center g-5">
         <!-- Left Image -->
         <div class="col-lg-6 text-center">
@@ -249,7 +257,7 @@
  </div>
  <!-- CTA ENDS -->
   <!-- FOOTER BEGINS -->
-<footer class="bg-dark text-light py-5">
+<footer class="bg-dark text-light py-5" id="contact">
     <div class="container">
         <div class="row">
             <!-- Brand -->
@@ -266,11 +274,11 @@
             <div class="col-md-4 mb-4">
                 <h5 class="fw-bold">Quick Links</h5>
                 <ul class="list-unstyled">
-                    <li><a href="#" class="text-light text-decoration-none">Home</a></li>
-                    <li><a href="#" class="text-light text-decoration-none">Features</a></li>
-                    <li><a href="#" class="text-light text-decoration-none">About</a></li>
-                    <li><a href="#" class="text-light text-decoration-none">Contact</a></li>
-                    <li><a href="#" class="text-light text-decoration-none">Login</a></li>
+                    <li><a href="index.html" class="text-light text-decoration-none">Home</a></li>
+                    <li><a href="#features" class="text-light text-decoration-none">Features</a></li>
+                    <li><a href="#about" class="text-light text-decoration-none">About</a></li>
+                    <li><a href="#contact" class="text-light text-decoration-none">Contact</a></li>
+                    <li><a href="dashboard.html" class="text-light text-decoration-none">Dashboard</a></li>
                 </ul>
             </div>
             <!-- Contact -->
@@ -285,7 +293,7 @@
                     +91 93781 79369
                 </p>
                 <div class="mt-3">
-                    <a href="#" class="text-light me-3">
+                    <a href="https://github.com/chulbulikushi07" target=_blank class="text-light me-3">
                         <i class="bi bi-github fs-4"></i>
                     </a>
                     <a href="#" class="text-light me-3">
@@ -302,7 +310,7 @@
         </div>
         <hr>
         <p class="text-center mb-0">
-            © 2026 StudySync. NO Rights Reserved. I havent built shit yet
+            © 2026 StudySync. All Rights Reserved.Yeah i got all of them. what you gonna do about it. 
         </p>
     </div>
 </footer>

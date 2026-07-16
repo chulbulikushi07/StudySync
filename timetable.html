@@ -29,7 +29,9 @@
 
             <div class="d-flex align-items-center gap-3">
                 <i class="bi bi-bell fs-5"></i>
-                <i class="bi bi-person-circle fs-4"></i>
+                <a href="profile.html" class="text-dark">
+                    <i class="bi bi-person-circle fs-4"></i>
+                </a>
             </div>
         </div>
     </div>
@@ -44,11 +46,84 @@
             <p class="text-muted mb-0">Manage your weekly class schedule.</p>
         </div>
 
-        <button class="btn btn-primary">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mood">
             <i class="bi bi-calendar-plus me-2"></i>
             Add Class
         </button>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header border-0 pb-0">
+                <h4 class="modal-title fw-bold" id="exampleModalLabel">
+                    <i class="bi bi-calendar-plus text-primary me-2"></i>
+                    Add Class
+                </h4>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body pt-3">
+                <form>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Class Name</label>
+                        <input type="text" class="form-control" placeholder="e.g. Calculus">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Day</label>
+                        <select class="form-select">
+                            <option selected disabled>Select Day</option>
+                            <option>Monday</option>
+                            <option>Tuesday</option>
+                            <option>Wednesday</option>
+                            <option>Thursday</option>
+                            <option>Friday</option>
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label class="form-label fw-semibold">Start Time</label>
+                            <input type="time" class="form-control">
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <label class="form-label fw-semibold">End Time</label>
+                            <input type="time" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Room</label>
+                        <input type="text" class="form-control" placeholder="e.g. ELT-1">
+                    </div>
+
+                    <div>
+                        <label class="form-label fw-semibold">Instructor (Optional)</label>
+                        <input type="text" class="form-control" placeholder="Professor Name">
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+
+                <button type="button" class="btn btn-primary px-4">
+                    <i class="bi bi-check-circle me-2"></i>
+                    Add Class
+                </button>
+                </div>
+            </div>
+        </div>
     </div>
+</div>        
+
 
     <div class="card border-0 shadow-sm">
         <div class="card-body">
