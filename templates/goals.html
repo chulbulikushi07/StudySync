@@ -12,7 +12,7 @@
     <!-- NAVBAR STARTS -->
 <nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="dashboard.html">StudySync</a>
+        <a class="navbar-brand fw-bold" href="{{ url_for('dashboard') }}">StudySync</a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
             <span class="navbar-toggler-icon"></span>
@@ -20,17 +20,17 @@
 
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav mx-auto">
-                <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link" href="assignments.html">Assignments</a></li>
-                <li class="nav-item"><a class="nav-link" href="notes.html">Notes</a></li>
-                <li class="nav-item"><a class="nav-link" href="timetable.html">Timetable</a></li>
-                <li class="nav-item"><a class="nav-link" href="progress.html">Progress</a></li>
-                <li class="nav-item"><a class="nav-link active" href="goals.html">Goals</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('assignments') }}">Assignments</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('notes') }}">Notes</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('timetable') }}">Timetable</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('progress') }}">Progress</a></li>
+                <li class="nav-item"><a class="nav-link active" href="{{ url_for('goals') }}">Goals</a></li>
             </ul>
 
             <div class="d-flex align-items-center gap-3">
                 <i class="bi bi-bell fs-5"></i>
-                <a href="profile.html" class="text-dark">
+                <a href="{{ url_for('profile') }}" class="text-dark">
                     <i class="bi bi-person-circle fs-4"></i>
                 </a>
             </div>

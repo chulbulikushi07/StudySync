@@ -14,7 +14,7 @@
         <!-- NAVBAR STARTS -->
 <nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="dashboard.html">
+        <a class="navbar-brand fw-bold" href="{{ url_for('dashboard') }}">
             StudySync
         </a>
         <button class="navbar-toggler"
@@ -26,29 +26,29 @@
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" href="dashboard.html">Dashboard</a>
+                    <a class="nav-link active" href="{{ url_for('dashboard') }}">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="assignments.html">Assignments</a>
+                    <a class="nav-link" href="{{ url_for('assignments') }}">Assignments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="notes.html">Notes</a>
+                    <a class="nav-link" href="{{ url_for('notes') }}">Notes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="timetable.html">Timetable</a>
+                    <a class="nav-link" href="{{ url_for('timetable') }}">Timetable</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="progress.html">Progress</a>
+                    <a class="nav-link" href="{{ url_for('progress') }}">Progress</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="goals.html">Goals</a>
+                    <a class="nav-link" href="{{ url_for('goals') }}">Goals</a>
                 </li>
             </ul>
             <div class="d-flex align-items-center gap-3">
                 <a href="" class="text-dark">
                     <i class="bi bi-bell fs-5"></i>
                 </a>
-                <a href="profile.html" class="text-dark">
+                <a href="{{ url_for('profile') }}" class="text-dark">
                     <i class="bi bi-person-circle fs-4"></i>
                 </a>
             </div>
@@ -338,28 +338,28 @@
             <div class="row g-4">
 
                 <div class="col-lg-3 col-md-6">
-                    <a href="assignments.html" class="btn btn-primary w-100 py-3">
+                    <a href="{{ url_for('assignments') }}" class="btn btn-primary w-100 py-3">
                         <i class="bi bi-plus-circle me-2"></i>
                             Add Assignment
                     </a>
                 </div>
 
                 <div class="col-lg-3 col-md-6">
-                    <a href="notes.html" class="btn btn-success w-100 py-3">
+                    <a href="{{ url_for('notes') }}" class="btn btn-success w-100 py-3">
                         <i class="bi bi-journal-plus me-2"></i>
                         Create Note
                     </a>
                 </div>
 
                 <div class="col-lg-3 col-md-6">
-                    <a href="timetable.html" class="btn btn-warning text-white w-100 py-3">
+                    <a href="{{ url_for('timetable') }}" class="btn btn-warning text-white w-100 py-3">
                         <i class="bi bi-calendar-plus me-2"></i>
                         Add Class
                     </a>
                 </div>
  
                 <div class="col-lg-3 col-md-6">
-                    <a href="pomodoro.html" class="btn btn-danger w-100 py-3">
+                    <a href="{{ url_for('pomodoro') }}" class="btn btn-danger w-100 py-3">
                         <i class="bi bi-alarm me-2"></i>
                         Start Timer
                     </a>

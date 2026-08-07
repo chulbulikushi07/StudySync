@@ -12,8 +12,8 @@
 <!-- NAVBAR STARTS -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
     <div class="container-fluid">
-        <a class="navbar-brand ms-3" href="index.html">
-            <img src="" alt="StudySync Logo" style="height: 80px; width: 90px;">
+        <a class="navbar-brand ms-3" href="{{ url_for('home') }}">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="StudySync Logo" style="height: 80px; width: 90px;">
         </a>
         <button class="navbar-toggler" type="button"
                 data-bs-toggle="collapse"
@@ -23,7 +23,7 @@
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
-                    <a class="nav-link active px-3" href="index.html">Home</a>
+                    <a class="nav-link active px-3" href="{{ url_for('home') }}">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link px-3" href="#features">Features</a>
@@ -35,7 +35,7 @@
                     <a class="nav-link px-3" href="#contact">Contact Us</a>
                 </li>
             </ul>
-            <a class="btn btn-light btn-outline-primary shadow-sm rounded me-3" href="dashboard.html">
+            <a class="btn btn-light btn-outline-primary shadow-sm rounded me-3" href="{{ url_for('dashboard') }}">
                 Dashboard
             </a>
         </div>
@@ -51,7 +51,7 @@
                 <p class="lead text-muted mb-4">Manage your assignments, notes, timetable, and study sessions all in one place.
                    StudySync helps students stay organized, productive, and focused with a clean and intuitive interface
                 </p>
-                <a href="dashboard.html" class="btn btn-primary btn-lg me-3">
+                <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-lg me-3">
                     Get Started
                 </a>
                 <a href="#features" class="btn btn-outline-primary btn-lg">
@@ -59,8 +59,8 @@
                 </a>
             </div>
             <div class="col-lg-6">
-                <a href="dashboard.html">
-                    <img src="img/heroimg.avif" class="img-fluid d-block mx-auto" style="max-height:350px;">
+                <a href="{{ url_for('dashboard') }}">
+                    <img src="{{ url_for('static', filename='img/heroimg.avif') }}" class="img-fluid d-block mx-auto" style="max-height:350px;">
                 </a>
             </div>
         </div>
@@ -152,7 +152,7 @@
     <div class="row align-items-center g-5">
         <!-- Left Image -->
         <div class="col-lg-6 text-center">
-            <img src="img/whychoose.png" class="img-fluid" alt="StudySync Dashboard" style="max-height: 400px;">
+            <img src="{{ url_for('static', filename='img/whychoose.png') }}" class="img-fluid" alt="StudySync Dashboard" style="max-height: 400px;">
         </div>
         <!-- Right Content -->
         <div class="col-lg-6">
@@ -249,7 +249,7 @@
             all in one place with StudySync.
         </p>
        <div class="text-center mt-4">
-            <a href="dashboard.html" class="btn btn-light btn-outline-primary btn-lg px-5">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-light btn-outline-primary btn-lg px-5">
                 Get Started
             </a>
 </div>    
@@ -274,11 +274,11 @@
             <div class="col-md-4 mb-4">
                 <h5 class="fw-bold">Quick Links</h5>
                 <ul class="list-unstyled">
-                    <li><a href="index.html" class="text-light text-decoration-none">Home</a></li>
+                    <li><a href="{{ url_for('home') }}" class="text-light text-decoration-none">Home</a></li>
                     <li><a href="#features" class="text-light text-decoration-none">Features</a></li>
                     <li><a href="#about" class="text-light text-decoration-none">About</a></li>
                     <li><a href="#contact" class="text-light text-decoration-none">Contact</a></li>
-                    <li><a href="dashboard.html" class="text-light text-decoration-none">Dashboard</a></li>
+                    <li><a href="{{ url_for('dashboard') }}" class="text-light text-decoration-none">Dashboard</a></li>
                 </ul>
             </div>
             <!-- Contact -->
