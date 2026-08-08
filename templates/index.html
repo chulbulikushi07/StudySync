@@ -1,47 +1,10 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>StudySync</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-    </head>
-  <body>
-<!-- NAVBAR STARTS -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-    <div class="container-fluid">
-        <a class="navbar-brand ms-3" href="{{ url_for('home') }}">
-            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="StudySync Logo" style="height: 80px; width: 90px;">
-        </a>
-        <button class="navbar-toggler" type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarContent">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarContent">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item">
-                    <a class="nav-link active px-3" href="{{ url_for('home') }}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link px-3" href="#features">Features</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link px-3" href="#about">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link px-3" href="#contact">Contact Us</a>
-                </li>
-            </ul>
-            <a class="btn btn-light btn-outline-primary shadow-sm rounded me-3" href="{{ url_for('dashboard') }}">
-                Dashboard
-            </a>
-        </div>
-    </div>
-</nav>
-<!-- NAVBAR ENDS -->
+{% extends "base_public.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
 
     <!-- HERO SECTION STARTS -->
      <div class="container hero-section">
@@ -49,8 +12,7 @@
             <div class="col-lg-6">
                 <h1 class="display-4 fw-bold mb-4 py-2">Organize Your Student Life, All in One Place</h1>
                 <p class="lead text-muted mb-4">Manage your assignments, notes, timetable, and study sessions all in one place.
-                   StudySync helps students stay organized, productive, and focused with a clean and intuitive interface
-                </p>
+               StudySync helps students stay organized, productive, and focused with a clean and intuitive interface</p>
                 <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-lg me-3">
                     Get Started
                 </a>
@@ -65,7 +27,7 @@
             </div>
         </div>
      </div>
-     <!-- HERO SECTION ENDS -->
+    <!-- HERO SECTION ENDS -->
 
 
      <!-- FEATURES SECTION STARTS -->
@@ -146,7 +108,7 @@
         </div>
     </div>
 </div>
-<!-- FEATURES SECTION ENDS -->
+
 <!-- WHY CHOOSE STUDYSYNC STARTS -->
 <div class="container why-choose" id="about">
     <div class="row align-items-center g-5">
@@ -184,139 +146,44 @@
         </div>
     </div>
 </div>
-<!-- WHY CHOOSE STUDYSYNC ENDS -->
- <!-- FAQ STARTS -->
-  <div class="container py-5 mb-4">
+
+<!-- FAQ STARTS -->
+<div class="container py-5 mb-4">
     <h3 class="text-center fw-bold mb-5">Frequently Asked Questions</h3>
-  <div class="accordion" id="accordionExample">
-  <div class="accordion-item">
-    <h2 class="accordion-header">
-      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-        What is StudySync?
-      </button>
-    </h2>
-    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        StudySync is a student productivity platform designed to help students manage assignments, notes, study sessions, and schedules in one place.
-      </div>
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">What is StudySync?</button></h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample"><div class="accordion-body">StudySync is a student productivity platform designed to help students manage assignments, notes, study sessions, and schedules in one place.</div></div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Is StudySync free to use?</button></h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample"><div class="accordion-body">Yes. This version is completely free, and more features will be added in future updates.</div></div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">Can i use StudySync on my phone?</button></h2>
+            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample"><div class="accordion-body">Yes. StudySync is designed to be responsive and works across desktops, tablets, and mobile devices.</div></div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">Will more features be added?</button></h2>
+            <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample"><div class="accordion-body">Absolutely! We plan to introduce authentication, cloud syncing, reminders, progress analytics, and many more productivity tools in future updates.</div></div>
+        </div>
     </div>
-  </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-        Is StudySync free to use?
-      </button>
-    </h2>
-    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Yes. This version is completely free, and more features will be added in future updates
-      </div>
-    </div>
-  </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-        Can i use StudySync on my phone?
-      </button>
-    </h2>
-    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        	Yes. StudySync is designed to be responsive and works across desktops, tablets, and mobile devices.
-      </div>
-    </div>
-  </div>
-   <div class="accordion-item">
-    <h2 class="accordion-header">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-        Will more features be added?
-      </button>
-    </h2>
-    <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Absolutely! We plan to introduce authentication, cloud syncing, reminders, progress analytics, and many more productivity tools in future updates.
-      </div>
-    </div>
-  </div>
-</div>
 </div>
 
 <!-- CTA STARTS -->
- <div class="container cta-section">
+<div class="container cta-section">
     <div class="row py-5">
         <h2 class="text-center fw-bold mb-5">Ready to Organize your Student life?</h2>
         <p class="text-muted text-center">
             Manage assignments, notes, study sessions, and goals
             all in one place with StudySync.
         </p>
-       <div class="text-center mt-4">
+        <div class="text-center mt-4">
             <a href="{{ url_for('dashboard') }}" class="btn btn-light btn-outline-primary btn-lg px-5">
                 Get Started
             </a>
-</div>    
-    </div>
- </div>
- <!-- CTA ENDS -->
-  <!-- FOOTER BEGINS -->
-<footer class="bg-dark text-light py-5" id="contact">
-    <div class="container">
-        <div class="row">
-            <!-- Brand -->
-            <div class="col-md-4 mb-4">
-                <h4 class="fw-bold">StudySync</h4>
-
-                <p class="text-light">
-                    Your all-in-one student productivity hub designed to help
-                    you manage assignments, notes, schedules, and study sessions
-                    with ease.
-                </p>
-            </div>
-            <!-- Quick Links -->
-            <div class="col-md-4 mb-4">
-                <h5 class="fw-bold">Quick Links</h5>
-                <ul class="list-unstyled">
-                    <li><a href="{{ url_for('home') }}" class="text-light text-decoration-none">Home</a></li>
-                    <li><a href="#features" class="text-light text-decoration-none">Features</a></li>
-                    <li><a href="#about" class="text-light text-decoration-none">About</a></li>
-                    <li><a href="#contact" class="text-light text-decoration-none">Contact</a></li>
-                    <li><a href="{{ url_for('dashboard') }}" class="text-light text-decoration-none">Dashboard</a></li>
-                </ul>
-            </div>
-            <!-- Contact -->
-            <div class="col-md-4 mb-4">
-                <h5 class="fw-bold">Contact</h5>
-                <p>
-                    <i class="bi bi-envelope-fill me-2"></i>
-                    paarthshukla058@gmail.com
-                </p>
-                <p>
-                    <i class="bi bi-telephone-fill me-2"></i>
-                    +91 93781 79369
-                </p>
-                <div class="mt-3">
-                    <a href="https://github.com/chulbulikushi07" target=_blank class="text-light me-3">
-                        <i class="bi bi-github fs-4"></i>
-                    </a>
-                    <a href="#" class="text-light me-3">
-                        <i class="bi bi-linkedin fs-4"></i>
-                    </a>
-                    <a href="#" class="text-light me-3">
-                        <i class="bi bi-instagram fs-4"></i>
-                    </a>
-                    <a href="#" class="text-light">
-                        <i class="bi bi-twitter-x fs-4"></i>
-                    </a>
-                </div>
-            </div>
         </div>
-        <hr>
-        <p class="text-center mb-0">
-            © 2026 StudySync. All Rights Reserved.Yeah i got all of them. what you gonna do about it. 
-        </p>
     </div>
-</footer>
-<!-- FOOTER ENDS -->
+</div>
 
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-  </body>
-</html>
+{% endblock %}
