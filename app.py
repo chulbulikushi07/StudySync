@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect ,url_for
 
 app = Flask(__name__)
 
@@ -6,8 +6,25 @@ app = Flask(__name__)
 def home():
     return render_template("index.html")
 
-@app.route("/assignments")
+@app.route("/assignments", methods=["GET","POST"])
 def assignments():
+    
+    if request.method == "POST":
+        
+        title = request.form["title"]
+        subject = request.form["subject"]
+        due_date = request.form["due_date"]
+        priority = request.form["priority"]
+        description = request.form["description"]
+        
+        print("Title:", title)
+        print("Subject", subject)
+        print("Due Date",due_date)
+        print("Priority",priority)
+        print("Description",description)
+        
+        return redirect(url_for("assignments"))
+        
     return render_template("assignments.html")
 
 @app.route("/dashboard")

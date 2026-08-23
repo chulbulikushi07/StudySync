@@ -14,6 +14,10 @@
             Add Assignment
         </button>
     </div>
+
+
+<form method="POST" action = "{{ url_for('assignments') }}">
+
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow-lg rounded-4">
@@ -28,11 +32,14 @@
                     <form>
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Assignment Name</label>
-                            <input type="text" class="form-control" placeholder="e.g. Calculus Worksheet">
+                            <input type="text" 
+                            class="form-control"
+                            name="title" 
+                            placeholder="e.g. Calculus Worksheet">
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Subject</label>
-                            <select class="form-select">
+                            <select class="form-select" name = "subject">
                                 <option selected disabled>Select Subject</option>
                                 <option>Calculus</option>
                                 <option>Physics</option>
@@ -42,11 +49,13 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Due Date</label>
-                            <input type="date" class="form-control">
+                            <input type="date" 
+                            class="form-control"
+                            name="due_date">
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Priority</label>
-                            <select class="form-select">
+                            <select class="form-select" name = "priority">
                                 <option>High</option>
                                 <option>Medium</option>
                                 <option>Low</option>
@@ -54,17 +63,23 @@
                         </div>
                         <div>
                             <label class="form-label fw-semibold">Description</label>
-                            <textarea class="form-control" rows="3" placeholder="Optional"></textarea>
+                            <textarea class="form-control" rows="3" placeholder="Optional"
+                            name="description">
+                            </textarea>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer border-0 pt-0">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary px-4"><i class="bi bi-check-circle me-2"></i> Add Assignment</button>
+                    <button type="submit" class="btn btn-primary px-4"><i class="bi bi-check-circle me-2"></i> Add Assignment</button>
                 </div>
             </div>
         </div>
     </div>
+
+</form>    
+
+
     <div class="card border-0 shadow-sm mb-4">
         <div class="card-body">
             <div class="row g-3">
