@@ -15,31 +15,27 @@
         </button>
     </div>
 
+    <form method="POST" action="{{ url_for('assignments') }}">
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg rounded-4">
+                    <div class="modal-header border-0 pb-0">
+                        <h4 class="modal-title fw-bold" id="exampleModalLabel">
+                            <i class="bi bi-journal-plus text-primary me-2"></i>
+                            Add Assignment
+                        </h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
 
-<form method="POST" action = "{{ url_for('assignments') }}">
-
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow-lg rounded-4">
-                <div class="modal-header border-0 pb-0">
-                    <h4 class="modal-title fw-bold" id="exampleModalLabel">
-                        <i class="bi bi-journal-plus text-primary me-2"></i>
-                        Add Assignment
-                    </h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body pt-3">
-                    <form>
+                    <div class="modal-body pt-3">
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Assignment Name</label>
-                            <input type="text" 
-                            class="form-control"
-                            name="title" 
-                            placeholder="e.g. Calculus Worksheet">
+                            <input type="text" class="form-control" name="title" placeholder="e.g. Calculus Worksheet">
                         </div>
+
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Subject</label>
-                            <select class="form-select" name = "subject">
+                            <select class="form-select" name="subject">
                                 <option selected disabled>Select Subject</option>
                                 <option>Calculus</option>
                                 <option>Physics</option>
@@ -47,38 +43,38 @@
                                 <option>English</option>
                             </select>
                         </div>
+
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Due Date</label>
-                            <input type="date" 
-                            class="form-control"
-                            name="due_date">
+                            <input type="date" class="form-control" name="due_date">
                         </div>
+
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Priority</label>
-                            <select class="form-select" name = "priority">
+                            <select class="form-select" name="priority">
                                 <option>High</option>
                                 <option>Medium</option>
                                 <option>Low</option>
                             </select>
                         </div>
+
                         <div>
                             <label class="form-label fw-semibold">Description</label>
-                            <textarea class="form-control" rows="3" placeholder="Optional"
-                            name="description">
-                            </textarea>
+                            <textarea class="form-control" rows="3" placeholder="Optional" name="description"></textarea>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer border-0 pt-0">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary px-4"><i class="bi bi-check-circle me-2"></i> Add Assignment</button>
+                    </div>
+
+                    <div class="modal-footer border-0 pt-0">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-check-circle me-2"></i>
+                            Add Assignment
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-</form>    
-
+    </form>
 
     <div class="card border-0 shadow-sm mb-4">
         <div class="card-body">
@@ -105,6 +101,7 @@
             </div>
         </div>
     </div>
+
     <div class="card border-0 shadow-sm">
         <div class="card-body">
             <table class="table table-hover align-middle">
@@ -118,41 +115,31 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for assignment in assignments %}
                     <tr>
-                        <td>Integration Worksheet</td>
-                        <td>Calculus</td>
-                        <td>Tomorrow</td>
-                        <td><span class="badge bg-warning text-dark">Pending</span></td>
-                        <td><span class="badge bg-danger">High</span></td>
+                        <td>{{ assignment.title }}</td>
+                        <td>{{ assignment.subject }}</td>
+                        <td>{{ assignment.due_date.strftime('%d %b %Y') }}</td>
+                    
+                        <td>
+                            {% if assignment.completed %}
+                                <span class="badge bg-success">Completed</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            {% endif %}
+                        </td>
+                    
+                        <td>
+                            {% if assignment.priority == "High" %}
+                                <span class="badge bg-danger">High</span>
+                            {% elif assignment.priority == "Medium" %}
+                                <span class="badge bg-primary">Medium</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Low</span>
+                            {% endif %}
+                        </td>
                     </tr>
-                    <tr>
-                        <td>Linked List Lab</td>
-                        <td>DSA</td>
-                        <td>Friday</td>
-                        <td><span class="badge bg-warning text-dark">Pending</span></td>
-                        <td><span class="badge bg-primary">Medium</span></td>
-                    </tr>
-                    <tr>
-                        <td>Physics Presentation</td>
-                        <td>Physics</td>
-                        <td>Monday</td>
-                        <td><span class="badge bg-success">Completed</span></td>
-                        <td><span class="badge bg-secondary">Low</span></td>
-                    </tr>
-                    <tr>
-                        <td>Essay Writing</td>
-                        <td>English</td>
-                        <td>Wednesday</td>
-                        <td><span class="badge bg-warning text-dark">Pending</span></td>
-                        <td><span class="badge bg-danger">High</span></td>
-                    </tr>
-                    <tr>
-                        <td>Probability Quiz</td>
-                        <td>Mathematics</td>
-                        <td>Next Week</td>
-                        <td><span class="badge bg-warning text-dark">Pending</span></td>
-                        <td><span class="badge bg-primary">Medium</span></td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

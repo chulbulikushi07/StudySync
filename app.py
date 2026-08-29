@@ -1,6 +1,7 @@
 # importing tools from Flask
 from flask import Flask, render_template, request, redirect ,url_for
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 # this creates the actual flask application
 app = Flask(__name__)
@@ -45,19 +46,29 @@ def assignments():
     #connection between the frontend and the backend   
         title = request.form["title"]
         subject = request.form["subject"]
-        due_date = request.form["due_date"]
+        due_date = datetime.strptime(request.form["due_date"], "%Y-%m-%d").date()        
         priority = request.form["priority"]
         description = request.form["description"]
     #prints out the information    
-        print("Title:", title)
-        print("Subject", subject)
-        print("Due Date",due_date)
-        print("Priority",priority)
-        print("Description",description)
-        
+        new_assignment = Assignment(
+            title=title,
+            subject=subject,
+            due_date=due_date,
+            priority=priority,
+            description=description
+        )
+        db.session.add(new_assignment)
+        db.session.commit() 
+               
         return redirect(url_for("assignments"))
         
-    return render_template("assignments.html")
+    assignments = Assignment.query.all()
+        
+    return render_template(
+        "assignments.html",
+        assignments=assignments
+    )
+
 
 
 # -------------------- DASHBOARD --------------------
