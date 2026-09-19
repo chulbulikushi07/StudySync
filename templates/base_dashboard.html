@@ -23,6 +23,7 @@
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('timetable') }}">Timetable</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('progress') }}">Progress</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('goals') }}">Goals</a></li>
+                    {% if current_user.is_admin %}<li class="nav-item"><a class="nav-link" href="{{ url_for('admin_users') }}">Users</a></li>{% endif %}
                 </ul>
                 <div class="d-flex align-items-center gap-3">
                     <a href="{{ url_for('pomodoro') }}" class="text-dark" title="Pomodoro timer"><i class="bi bi-alarm fs-5"></i></a>

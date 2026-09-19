@@ -28,6 +28,7 @@ class User(db.Model):
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True, index=True)
     password_hash = db.Column(db.String(255), nullable=False)
+    is_admin = db.Column(db.Boolean, nullable=False, default=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     assignments = db.relationship("Assignment", backref="user", lazy=True, cascade="all, delete-orphan")
     notes = db.relationship("Note", backref="user", lazy=True, cascade="all, delete-orphan")
@@ -102,6 +103,20 @@ def login_required(view):
         if get_current_user() is None:
             flash("Please log in to access StudySync.", "warning")
             return redirect(url_for("login", next=request.path))
+        return view(*args, **kwargs)
+    return wrapped_view
+
+
+def admin_required(view):
+    """Allow access only to the StudySync account administrator."""
+    @wraps(view)
+    def wrapped_view(*args, **kwargs):
+        user = get_current_user()
+        if user is None:
+            flash("Please log in to access StudySync.", "warning")
+            return redirect(url_for("login", next=request.path))
+        if not user.is_admin:
+            abort(403)
         return view(*args, **kwargs)
     return wrapped_view
 
@@ -264,7 +279,13 @@ def register():
                 raise ValueError("Passwords do not match.")
             if User.query.filter_by(email=email).first():
                 raise ValueError("An account with that email already exists.")
-            user = User(name=name, email=email, password_hash=generate_password_hash(password))
+            configured_admin = os.environ.get("ADMIN_EMAIL", "").strip().lower()
+            user = User(
+                name=name,
+                email=email,
+                password_hash=generate_password_hash(password),
+                is_admin=User.query.count() == 0 or email == configured_admin,
+            )
             db.session.add(user)
             db.session.commit()
             session.clear()
@@ -340,6 +361,13 @@ def dashboard():
         recent_notes=recent_notes,
         today_entries=today_entries,
     )
+
+
+@app.route("/admin/users")
+@admin_required
+def admin_users():
+    users = User.query.order_by(User.created_at.desc()).all()
+    return render_template("admin_users.html", users=users)
 
 
 @app.route("/assignments", methods=["GET", "POST"])
@@ -623,13 +651,29 @@ def prepare_database():
     """Create tables and make the original assignment-only demo database usable."""
     db.create_all()
     inspector = inspect(db.engine)
-    if "assignment" not in inspector.get_table_names():
-        return
-    column_names = {column["name"] for column in inspector.get_columns("assignment")}
+    tables = inspector.get_table_names()
+    user_columns = (
+        {column["name"] for column in inspector.get_columns("user")}
+        if "user" in tables
+        else set()
+    )
+    assignment_columns = (
+        {column["name"] for column in inspector.get_columns("assignment")}
+        if "assignment" in tables
+        else set()
+    )
     with db.engine.begin() as connection:
-        if "user_id" not in column_names:
+        if "user" in tables and "is_admin" not in user_columns:
+            connection.execute(text('ALTER TABLE "user" ADD COLUMN is_admin BOOLEAN NOT NULL DEFAULT 0'))
+            connection.execute(
+                text(
+                    'UPDATE "user" SET is_admin = 1 '
+                    'WHERE id = (SELECT MIN(id) FROM "user")'
+                )
+            )
+        if "assignment" in tables and "user_id" not in assignment_columns:
             connection.execute(text("ALTER TABLE assignment ADD COLUMN user_id INTEGER"))
-        if "created_at" not in column_names:
+        if "assignment" in tables and "created_at" not in assignment_columns:
             connection.execute(text("ALTER TABLE assignment ADD COLUMN created_at DATETIME"))
             connection.execute(text("UPDATE assignment SET created_at = CURRENT_TIMESTAMP WHERE created_at IS NULL"))
 

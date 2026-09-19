@@ -1,0 +1,50 @@
+{% extends "base_dashboard.html" %}
+{% block title %}Users | StudySync{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="mb-4">
+        <h1 class="fw-bold">Registered Users</h1>
+        <p class="text-muted mb-0">Administrator view of StudySync accounts and their saved records.</p>
+    </div>
+    <div class="alert alert-info border-0 shadow-sm">
+        <i class="bi bi-shield-lock me-2"></i>
+        Passwords are securely hashed and are never displayed here.
+    </div>
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-3">User</th>
+                            <th>Email</th>
+                            <th>Joined</th>
+                            <th>Assignments</th>
+                            <th>Notes</th>
+                            <th>Goals</th>
+                            <th>Classes</th>
+                            <th class="pe-3">Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td class="ps-3"><strong>{{ user.name }}</strong></td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.created_at.strftime('%d %b %Y') }}</td>
+                            <td>{{ user.assignments|length }}</td>
+                            <td>{{ user.notes|length }}</td>
+                            <td>{{ user.goals|length }}</td>
+                            <td>{{ user.timetable_entries|length }}</td>
+                            <td class="pe-3">{% if user.is_admin %}<span class="badge bg-primary">Administrator</span>{% else %}<span class="badge bg-secondary">Student</span>{% endif %}</td>
+                        </tr>
+                        {% else %}
+                        <tr><td colspan="8" class="text-center text-muted py-5">No users have registered yet.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -65,6 +65,8 @@ class StudySyncTests(unittest.TestCase):
         with app.app_context():
             self.assertEqual(User.query.count(), 1)
             self.assertNotEqual(User.query.first().password_hash, "strongpass")
+            self.assertTrue(User.query.first().is_admin)
+        self.assertEqual(self.client.get("/admin/users").status_code, 200)
 
         self.assertEqual(self.post("/logout").status_code, 302)
         self.assertEqual(self.login().status_code, 302)
@@ -154,6 +156,7 @@ class StudySyncTests(unittest.TestCase):
         self.register("Second user", "second@example.com")
         assignments_page = self.client.get("/assignments")
         self.assertNotIn(b"Private assignment", assignments_page.data)
+        self.assertEqual(self.client.get("/admin/users").status_code, 403)
         response = self.post(f"/assignments/{assignment_id}/toggle")
         self.assertEqual(response.status_code, 404)
 
