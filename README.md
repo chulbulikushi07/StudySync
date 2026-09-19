@@ -1,101 +1,147 @@
-# StudySync
+# 📚 StudySync
 
-StudySync is a Flask student-productivity application for managing assignments, notes, goals, and a weekly timetable in one place. Every account has its own private data.
+**StudySync** is a Flask web app that helps students stay organised. Manage assignments, notes, goals, and a weekly timetable in one place, track your progress on a live dashboard, and focus with a built-in Pomodoro timer. Every account's data is private to that user.
 
 ## Features
 
-- Secure registration, login, logout, password updates, and CSRF-protected forms
-- Assignment CRUD, completion tracking, priorities, due dates, and filtering
-- Notes CRUD with subject and category search
-- Goals with target dates and progress tracking
-- Timetable CRUD for weekly classes
-- Live dashboard and progress statistics from stored data
-- Protected administrator view of registered users and their record counts
-- Browser-based Pomodoro timer
+- **Accounts & security**: registration, login/logout, password updates, hashed passwords, and CSRF-protected forms
+- **Assignments**: create, edit, delete, mark complete, set priority and due date, and filter the list
+- **Notes**: full CRUD with subject and category search
+- **Goals**: target dates and progress tracking
+- **Timetable**: weekly class schedule with full CRUD
+- **Dashboard & progress**: live statistics computed from your stored data
+- **Pomodoro timer**: browser-based focus timer
+- **Admin view**: protected page listing registered users and their record counts
+- **Data isolation**: users can only access their own records (covered by tests)
 
 ## Tech stack
 
-- Python, Flask, Flask-SQLAlchemy
-- SQLite for local development; PostgreSQL for Vercel deployment
-- HTML5, Bootstrap 5, Bootstrap Icons, Jinja2
+| Layer | Technology |
+| --- | --- |
+| Backend | Python 3.13, Flask 3, Flask-SQLAlchemy 3 |
+| Database | SQLite (local), PostgreSQL via `psycopg` (production) |
+| Frontend | Jinja2, HTML5, Bootstrap 5, Bootstrap Icons |
+| Hosting | Vercel (serverless) or any host running Gunicorn |
 
 ## Project structure
 
-~~~text
-app.py                 Flask routes, models, validation, and database setup
-templates/             Jinja templates and Bootstrap views
-public/static/         Vercel-compatible CSS and image assets
-instance/              Local SQLite database (ignored by Git)
-tests/                 Automated backend tests
-vercel.json            Vercel function configuration
-~~~
+```text
+StudySync/
+├── app.py              # Routes, models, validation, and database setup
+├── templates/          # Jinja2 templates (base layouts + one per page)
+├── public/static/      # CSS and images (served as static files on Vercel)
+├── tests/test_app.py   # End-to-end backend tests
+├── requirements.txt    # Python dependencies
+├── vercel.json         # Vercel function configuration
+└── instance/           # Local SQLite database (created automatically, git-ignored)
+```
 
-## Run locally
+## Getting started
 
-1. Create and activate a virtual environment:
+### Prerequisites
 
-   ~~~powershell
+- Python 3.13 (see `.python-version`)
+- `pip`
+
+### Installation
+
+1. **Clone the repository and enter it**
+
+```bash
+   git clone https://github.com/chulbulikushi07/StudySync.git
+   cd StudySync
+```
+
+2. **Create and activate a virtual environment**
+
+```bash
+   # macOS / Linux
+   python3 -m venv .venv
+   source .venv/bin/activate
+```
+
+```powershell
+   # Windows (PowerShell)
    py -m venv .venv
    .\.venv\Scripts\Activate.ps1
-   ~~~
+```
 
-2. Install the dependencies:
+3. **Install dependencies**
 
-   ~~~powershell
+```bash
    pip install -r requirements.txt
-   ~~~
+```
 
-3. Set a development secret:
+4. **Set a secret key**
 
-   ~~~powershell
+```bash
+   # macOS / Linux
+   export SECRET_KEY="replace-with-a-long-random-secret"
+```
+
+```powershell
+   # Windows (PowerShell)
    $env:SECRET_KEY = "replace-with-a-long-random-secret"
-   ~~~
+```
 
-4. Start the app:
+5. **Run the app**
 
-   ~~~powershell
+```bash
    python app.py
-   ~~~
+```
 
-Open http://127.0.0.1:5000. The local SQLite database is created automatically at instance/studysync.db.
+Open <http://127.0.0.1:5000>. The SQLite database is created automatically at `instance/studysync.db`. You can also create the tables manually with `flask --app app init-db`.
 
-## Environment variables
+> **Tip:** without `ADMIN_EMAIL` set, the **first account registered** becomes the administrator.
 
-| Variable | Purpose |
-| --- | --- |
-| SECRET_KEY | Required unique secret for deployed instances. |
-| DATABASE_URL | Hosted PostgreSQL URL for Vercel; omitted locally to use SQLite. |
-| ADMIN_EMAIL | Optional email address that receives the administrator role. |
-| FLASK_DEBUG | Set to 1 only for local debugging. |
-| CSRF_ENABLED | Defaults to true; set to false only in controlled automated tests. |
+## Configuration
 
-Without ADMIN_EMAIL, the first locally registered account becomes the administrator. For a public deployment, set ADMIN_EMAIL before allowing registration.
+| Variable | Required | Description |
+| --- | --- | --- |
+| `SECRET_KEY` | Yes on Vercel | Secret used to sign sessions. Use a long, random value in production. |
+| `DATABASE_URL` | Yes on Vercel | PostgreSQL connection URL. Leave unset locally to use SQLite. `postgres://` and `postgresql://` URLs are converted to the `psycopg` format automatically. |
+| `ADMIN_EMAIL` | Recommended | Email address that receives the administrator role when it registers. |
+| `FLASK_DEBUG` | No | Set to `1` for local debugging only. |
+| `CSRF_ENABLED` | No | Defaults to `true`. Set to `false` only in controlled automated tests. |
 
-## Deploy to Vercel
+## Running the tests
 
-1. Create a hosted PostgreSQL database, such as Neon or Supabase, and copy its connection URL.
-2. Import the GitHub repository into Vercel. Vercel detects the root app.py Flask entry point.
-3. In Vercel Project Settings → Environment Variables, add:
+```bash
+python -m unittest tests.test_app
+```
 
-   - DATABASE_URL: the PostgreSQL connection URL
-   - SECRET_KEY: a long random value
-   - ADMIN_EMAIL: your email address
+The tests use a temporary SQLite database and cover authentication, protected pages, CRUD for each resource, the live dashboard, per-user data isolation, profile and password changes, and input validation.
 
-4. Deploy. The application creates its tables automatically when it first connects to the database.
+## Deployment
 
-Vercel cannot use the local SQLite database because serverless storage is not persistent. The app therefore requires DATABASE_URL on Vercel and automatically converts standard Postgres URLs to the psycopg SQLAlchemy format.
+### Vercel
 
-## Deployment notes
+1. Create a hosted PostgreSQL database (for example on [Neon](https://neon.tech) or [Supabase](https://supabase.com)) and copy its connection URL.
+2. Import the GitHub repository into Vercel. It detects the Flask entry point `app.py`.
+3. Under **Project Settings → Environment Variables**, add `DATABASE_URL`, `SECRET_KEY`, and `ADMIN_EMAIL`.
+4. Deploy. Tables are created automatically on first connection.
 
-The public/static directory is served as static content by Vercel. Local development and non-Vercel deployments can continue to use Flask's normal static route. For a traditional Linux host, set DATABASE_URL and run:
+The app refuses to start on Vercel if `DATABASE_URL` or `SECRET_KEY` is missing, because serverless storage is not persistent and SQLite cannot be used there. **Set `ADMIN_EMAIL` before opening registration** so the first visitor doesn't become admin.
 
-~~~bash
+### Traditional Linux host
+
+```bash
+export DATABASE_URL="postgresql://user:password@host:5432/dbname"
+export SECRET_KEY="a-long-random-secret"
 gunicorn --bind 0.0.0.0:8000 app:app
-~~~
+```
 
-## Future improvements
+## Roadmap
 
 - Password-reset emails
 - Calendar export and assignment reminders
 - Persisted Pomodoro history
-- Formal database migrations for long-lived production schemas
+- Formal database migrations (e.g. Alembic) for long-lived production schemas
+
+## Contributing
+
+Issues and pull requests are welcome. Please run the test suite before submitting changes.
+
+## License
+
+Released under the MIT License. See [LICENSE](LICENSE).
