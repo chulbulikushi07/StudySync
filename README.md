@@ -1,5 +1,7 @@
 # 📚 StudySync
 
+**🔗 Live app: [study-sync-ruddy-seven.vercel.app](https://study-sync-ruddy-seven.vercel.app/)**
+
 **StudySync** is a Flask web app that helps students stay organised. Manage assignments, notes, goals, and a weekly timetable in one place, track your progress on a live dashboard, and focus with a built-in Pomodoro timer. Every account's data is private to that user.
 
 ## Features
@@ -90,7 +92,7 @@ StudySync/
    python app.py
 ```
 
-Open [<http://127.0.0.1:5000>](https://study-sync-ruddy-seven.vercel.app/). The SQLite database is created automatically at `instance/studysync.db`. You can also create the tables manually with `flask --app app init-db`.
+Open [(https://study-sync-ruddy-seven.vercel.app/)]. The SQLite database is created automatically at `instance/studysync.db`. You can also create the tables manually with `flask --app app init-db`.
 
 > **Tip:** without `ADMIN_EMAIL` set, the **first account registered** becomes the administrator.
 
