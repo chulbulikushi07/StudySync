@@ -1,7 +1,5 @@
 {% extends "base_dashboard.html" %}
-
-{% block title %}Assignments{% endblock %}
-
+{% block title %}Assignments | StudySync{% endblock %}
 {% block content %}
 <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -9,140 +7,101 @@
             <h1 class="fw-bold">Assignment Manager</h1>
             <p class="text-muted mb-0">Track deadlines and manage your coursework.</p>
         </div>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@ass">
-            <i class="bi bi-plus-circle me-2"></i>
-            Add Assignment
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAssignmentModal">
+            <i class="bi bi-plus-circle me-2"></i>Add Assignment
         </button>
     </div>
 
-    <form method="POST" action="{{ url_for('assignments') }}">
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content border-0 shadow-lg rounded-4">
-                    <div class="modal-header border-0 pb-0">
-                        <h4 class="modal-title fw-bold" id="exampleModalLabel">
-                            <i class="bi bi-journal-plus text-primary me-2"></i>
-                            Add Assignment
-                        </h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-
-                    <div class="modal-body pt-3">
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">Assignment Name</label>
-                            <input type="text" class="form-control" name="title" placeholder="e.g. Calculus Worksheet">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">Subject</label>
-                            <select class="form-select" name="subject">
-                                <option selected disabled>Select Subject</option>
-                                <option>Calculus</option>
-                                <option>Physics</option>
-                                <option>DSA</option>
-                                <option>English</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">Due Date</label>
-                            <input type="date" class="form-control" name="due_date">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">Priority</label>
-                            <select class="form-select" name="priority">
-                                <option>High</option>
-                                <option>Medium</option>
-                                <option>Low</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="form-label fw-semibold">Description</label>
-                            <textarea class="form-control" rows="3" placeholder="Optional" name="description"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer border-0 pt-0">
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary px-4">
-                            <i class="bi bi-check-circle me-2"></i>
-                            Add Assignment
-                        </button>
-                    </div>
+    <form class="card border-0 shadow-sm mb-4" method="get">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-lg-5"><input type="search" class="form-control" name="q" value="{{ search }}" placeholder="Search assignments..."></div>
+                <div class="col-lg-3">
+                    <select class="form-select" name="subject">
+                        <option value="">All subjects</option>
+                        {% for subject in subjects %}<option value="{{ subject }}" {% if selected_subject == subject %}selected{% endif %}>{{ subject }}</option>{% endfor %}
+                    </select>
                 </div>
+                <div class="col-lg-2">
+                    <select class="form-select" name="status">
+                        <option value="">All status</option>
+                        <option value="pending" {% if selected_status == "pending" %}selected{% endif %}>Pending</option>
+                        <option value="completed" {% if selected_status == "completed" %}selected{% endif %}>Completed</option>
+                    </select>
+                </div>
+                <div class="col-lg-2 d-grid"><button class="btn btn-outline-primary">Filter</button></div>
             </div>
         </div>
     </form>
 
-    <div class="card border-0 shadow-sm mb-4">
-        <div class="card-body">
-            <div class="row g-3">
-                <div class="col-lg-6">
-                    <input type="text" class="form-control" placeholder="Search assignments...">
-                </div>
-                <div class="col-lg-3">
-                    <select class="form-select">
-                        <option>All Subjects</option>
-                        <option>Calculus</option>
-                        <option>DSA</option>
-                        <option>Physics</option>
-                        <option>English</option>
-                    </select>
-                </div>
-                <div class="col-lg-3">
-                    <select class="form-select">
-                        <option>All Status</option>
-                        <option>Pending</option>
-                        <option>Completed</option>
-                    </select>
-                </div>
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light"><tr><th class="ps-3">Assignment</th><th>Subject</th><th>Due date</th><th>Status</th><th>Priority</th><th class="text-end pe-3">Actions</th></tr></thead>
+                    <tbody>
+                    {% for assignment in assignments %}
+                        <tr>
+                            <td class="ps-3"><strong>{{ assignment.title }}</strong>{% if assignment.description %}<small class="d-block text-muted">{{ assignment.description|truncate(70) }}</small>{% endif %}</td>
+                            <td>{{ assignment.subject }}</td>
+                            <td>{{ assignment.due_date.strftime('%d %b %Y') }}</td>
+                            <td>{% if assignment.completed %}<span class="badge bg-success">Completed</span>{% else %}<span class="badge bg-warning text-dark">Pending</span>{% endif %}</td>
+                            <td><span class="badge {% if assignment.priority == 'High' %}bg-danger{% elif assignment.priority == 'Medium' %}bg-primary{% else %}bg-secondary{% endif %}">{{ assignment.priority }}</span></td>
+                            <td class="text-end pe-3">
+                                <form class="d-inline" method="post" action="{{ url_for('toggle_assignment', assignment_id=assignment.id) }}">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button class="btn btn-sm btn-outline-success" title="Toggle completion"><i class="bi bi-check2"></i></button>
+                                </form>
+                                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editAssignment{{ assignment.id }}" title="Edit"><i class="bi bi-pencil"></i></button>
+                                <form class="d-inline" method="post" action="{{ url_for('delete_assignment', assignment_id=assignment.id) }}" onsubmit="return confirm('Delete this assignment?')">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button class="btn btn-sm btn-outline-danger" title="Delete"><i class="bi bi-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="6" class="text-center text-muted py-5">No assignments match your filters. Add one to get started.</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-
-    <div class="card border-0 shadow-sm">
-        <div class="card-body">
-            <table class="table table-hover align-middle">
-                <thead class="table-light">
-                    <tr>
-                        <th>Assignment</th>
-                        <th>Subject</th>
-                        <th>Due Date</th>
-                        <th>Status</th>
-                        <th>Priority</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for assignment in assignments %}
-                    <tr>
-                        <td>{{ assignment.title }}</td>
-                        <td>{{ assignment.subject }}</td>
-                        <td>{{ assignment.due_date.strftime('%d %b %Y') }}</td>
-                    
-                        <td>
-                            {% if assignment.completed %}
-                                <span class="badge bg-success">Completed</span>
-                            {% else %}
-                                <span class="badge bg-warning text-dark">Pending</span>
-                            {% endif %}
-                        </td>
-                    
-                        <td>
-                            {% if assignment.priority == "High" %}
-                                <span class="badge bg-danger">High</span>
-                            {% elif assignment.priority == "Medium" %}
-                                <span class="badge bg-primary">Medium</span>
-                            {% else %}
-                                <span class="badge bg-secondary">Low</span>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
 </div>
+
+<div class="modal fade" id="addAssignmentModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered"><div class="modal-content border-0 shadow-lg rounded-4">
+        <form method="post" action="{{ url_for('assignments') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="modal-header border-0"><h4 class="modal-title fw-bold"><i class="bi bi-journal-plus text-primary me-2"></i>Add Assignment</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <div class="mb-3"><label class="form-label fw-semibold">Assignment Name</label><input class="form-control" name="title" maxlength="150" required placeholder="e.g. Calculus Worksheet"></div>
+                <div class="mb-3"><label class="form-label fw-semibold">Subject</label><input class="form-control" name="subject" maxlength="100" required placeholder="e.g. Calculus"></div>
+                <div class="mb-3"><label class="form-label fw-semibold">Due Date</label><input class="form-control" type="date" name="due_date" required></div>
+                <div class="mb-3"><label class="form-label fw-semibold">Priority</label><select class="form-select" name="priority">{% for priority in priorities %}<option {% if priority == 'Medium' %}selected{% endif %}>{{ priority }}</option>{% endfor %}</select></div>
+                <div><label class="form-label fw-semibold">Description</label><textarea class="form-control" rows="3" name="description" maxlength="5000" placeholder="Optional"></textarea></div>
+            </div>
+            <div class="modal-footer border-0"><button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary px-4"><i class="bi bi-check-circle me-2"></i>Add Assignment</button></div>
+        </form>
+    </div></div>
+</div>
+
+{% for assignment in assignments %}
+<div class="modal fade" id="editAssignment{{ assignment.id }}" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered"><div class="modal-content border-0 shadow-lg rounded-4">
+        <form method="post" action="{{ url_for('edit_assignment', assignment_id=assignment.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="modal-header border-0"><h4 class="modal-title fw-bold">Edit Assignment</h4><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <div class="mb-3"><label class="form-label">Assignment Name</label><input class="form-control" name="title" value="{{ assignment.title }}" maxlength="150" required></div>
+                <div class="mb-3"><label class="form-label">Subject</label><input class="form-control" name="subject" value="{{ assignment.subject }}" maxlength="100" required></div>
+                <div class="mb-3"><label class="form-label">Due Date</label><input class="form-control" type="date" name="due_date" value="{{ assignment.due_date.isoformat() }}" required></div>
+                <div class="mb-3"><label class="form-label">Priority</label><select class="form-select" name="priority">{% for priority in priorities %}<option {% if assignment.priority == priority %}selected{% endif %}>{{ priority }}</option>{% endfor %}</select></div>
+                <div><label class="form-label">Description</label><textarea class="form-control" rows="3" name="description" maxlength="5000">{{ assignment.description }}</textarea></div>
+            </div>
+            <div class="modal-footer border-0"><button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary">Save changes</button></div>
+        </form>
+    </div></div>
+</div>
+{% endfor %}
 {% endblock %}

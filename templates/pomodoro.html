@@ -1,55 +1,38 @@
 {% extends "base_focus.html" %}
-
-{% block title %}
-Pomodoro
-{% endblock %}
-
+{% block title %}Pomodoro | StudySync{% endblock %}
 {% block content %}
-
-    <div class="container py-5">
-        <div class="text-center mb-5">
-            <h1 class="fw-bold">Pomodoro Timer</h1>
-            <p class="text-muted">Stay focused. Study smarter.</p>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <div class="card border-0 shadow-sm text-center p-5">
-                    <h5 class="text-muted mb-3">Focus Session</h5>
-                    <h1 class="display-1 fw-bold text-primary">
-                        67:67
-                    </h1>
-                    <div class="d-flex justify-content-center gap-3 mt-4">
-                        <button class="btn btn-success btn-lg">
-                            <i class="bi bi-play-fill me-2"></i>
-                            Start
-                        </button>
-                        <button class="btn btn-warning btn-lg text-white">
-                            <i class="bi bi-pause-fill me-2"></i>
-                            Pause
-                        </button>
-                        <button class="btn btn-danger btn-lg">
-                            <i class="bi bi-arrow-clockwise me-2"></i>
-                            Reset
-                        </button>
-                    </div>
-                    <hr class="my-5">
-                    <div class="row text-center">
-                        <div class="col">
-                            <h3 class="fw-bold">67</h3>
-                            <p class="text-muted mb-0">Sessions</p>
-                        </div>
-                        <div class="col">
-                            <h3 class="fw-bold">67h</h3>
-                            <p class="text-muted mb-0">Focused</p>
-                        </div>
-                        <div class="col">
-                            <h3 class="fw-bold">67</h3>
-                            <p class="text-muted mb-0">Breaks</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+<div class="container py-5"><div class="text-center mb-5"><h1 class="fw-bold">Pomodoro Timer</h1><p class="text-muted">Stay focused. Study smarter.</p></div>
+    <div class="row justify-content-center"><div class="col-lg-6"><div class="card border-0 shadow-sm text-center p-4 p-md-5">
+        <h5 class="text-muted mb-3">Focus Session</h5><div id="timer" class="display-1 fw-bold text-primary" aria-live="polite">25:00</div>
+        <div class="d-flex justify-content-center flex-wrap gap-3 mt-4"><button id="startButton" class="btn btn-success btn-lg"><i class="bi bi-play-fill me-2"></i>Start</button><button id="pauseButton" class="btn btn-warning btn-lg text-white"><i class="bi bi-pause-fill me-2"></i>Pause</button><button id="resetButton" class="btn btn-danger btn-lg"><i class="bi bi-arrow-clockwise me-2"></i>Reset</button></div>
+        <hr class="my-5"><div class="row text-center"><div class="col"><h3 id="sessions" class="fw-bold">0</h3><p class="text-muted mb-0">Sessions this visit</p></div><div class="col"><h3 class="fw-bold">25m</h3><p class="text-muted mb-0">Focus length</p></div></div>
+        <p class="small text-muted mt-4 mb-0">The timer runs in your browser. Focus sessions are not saved to your account.</p>
+    </div></div></div>
+</div>
+<script>
+    const timerDisplay = document.getElementById("timer");
+    const sessionsDisplay = document.getElementById("sessions");
+    let secondsLeft = 25 * 60;
+    let sessions = 0;
+    let intervalId = null;
+    function drawTimer() {
+        const minutes = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
+        const seconds = String(secondsLeft % 60).padStart(2, "0");
+        timerDisplay.textContent = minutes + ":" + seconds;
+    }
+    function pauseTimer() { clearInterval(intervalId); intervalId = null; }
+    document.getElementById("startButton").addEventListener("click", () => {
+        if (intervalId) return;
+        intervalId = setInterval(() => {
+            if (secondsLeft === 0) {
+                pauseTimer(); sessions += 1; sessionsDisplay.textContent = sessions;
+                alert("Focus session complete. Take a short break!");
+                return;
+            }
+            secondsLeft -= 1; drawTimer();
+        }, 1000);
+    });
+    document.getElementById("pauseButton").addEventListener("click", pauseTimer);
+    document.getElementById("resetButton").addEventListener("click", () => { pauseTimer(); secondsLeft = 25 * 60; drawTimer(); });
+</script>
 {% endblock %}

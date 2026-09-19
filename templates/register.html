@@ -1,0 +1,37 @@
+{% extends "base_public.html" %}
+{% block title %}Create account | StudySync{% endblock %}
+{% block content %}
+<main class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4 p-md-5">
+                    <h1 class="h2 fw-bold mb-2">Create your account</h1>
+                    <p class="text-muted mb-4">Start managing your assignments, notes, goals, and timetable.</p>
+                    <form method="post">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold" for="name">Name</label>
+                            <input class="form-control" type="text" id="name" name="name" autocomplete="name" maxlength="100" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold" for="email">Email</label>
+                            <input class="form-control" type="email" id="email" name="email" autocomplete="email" maxlength="255" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold" for="password">Password</label>
+                            <input class="form-control" type="password" id="password" name="password" minlength="8" autocomplete="new-password" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold" for="confirm_password">Confirm password</label>
+                            <input class="form-control" type="password" id="confirm_password" name="confirm_password" minlength="8" autocomplete="new-password" required>
+                        </div>
+                        <button class="btn btn-primary w-100">Create account</button>
+                    </form>
+                    <p class="text-center text-muted mt-4 mb-0">Already have an account? <a href="{{ url_for('login') }}">Log in</a>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,3 +1,7 @@
-instance/
 __pycache__/
-*.pyc
+*.py[cod]
+.venv/
+env/
+.env
+instance/*.db
+.pytest_cache/
