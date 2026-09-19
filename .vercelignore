@@ -1,0 +1,7 @@
+env
+.venv
+instance
+tests
+__pycache__
+*.pyc
+static

@@ -4,6 +4,7 @@ import os
 import secrets
 from datetime import datetime
 from functools import wraps
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 from flask import Flask, abort, flash, redirect, render_template, request, session, url_for
 from flask_sqlalchemy import SQLAlchemy
@@ -11,11 +12,43 @@ from sqlalchemy import inspect, or_, text
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
-app = Flask(__name__)
+raw_database_url = os.environ.get("DATABASE_URL")
+is_vercel = os.environ.get("VERCEL") == "1"
+
+if is_vercel and not raw_database_url:
+    raise RuntimeError("DATABASE_URL must be set when deploying StudySync to Vercel.")
+if is_vercel and not os.environ.get("SECRET_KEY"):
+    raise RuntimeError("SECRET_KEY must be set when deploying StudySync to Vercel.")
+
+if raw_database_url and raw_database_url.startswith(("postgres://", "postgresql://")):
+    parsed_url = urlsplit(raw_database_url)
+    filtered_query = [
+        (key, value)
+        for key, value in parse_qsl(parsed_url.query, keep_blank_values=True)
+        if key != "pgbouncer"
+    ]
+    raw_database_url = urlunsplit(
+        (
+            parsed_url.scheme,
+            parsed_url.netloc,
+            parsed_url.path,
+            urlencode(filtered_query),
+            parsed_url.fragment,
+        )
+    )
+
+if raw_database_url and raw_database_url.startswith("postgres://"):
+    raw_database_url = raw_database_url.replace(
+        "postgres://", "postgresql+psycopg://", 1
+    )
+elif raw_database_url and raw_database_url.startswith("postgresql://"):
+    raw_database_url = raw_database_url.replace(
+        "postgresql://", "postgresql+psycopg://", 1
+    )
+
+app = Flask(__name__, static_folder="public/static", static_url_path="/static")
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY") or secrets.token_urlsafe(32)
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
-    "DATABASE_URL", "sqlite:///studysync.db"
-)
+app.config["SQLALCHEMY_DATABASE_URI"] = raw_database_url or "sqlite:///studysync.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["CSRF_ENABLED"] = os.environ.get("CSRF_ENABLED", "true").lower() != "false"
 app.config["DEBUG"] = os.environ.get("FLASK_DEBUG", "0") == "1"
@@ -280,11 +313,12 @@ def register():
             if User.query.filter_by(email=email).first():
                 raise ValueError("An account with that email already exists.")
             configured_admin = os.environ.get("ADMIN_EMAIL", "").strip().lower()
+            is_first_account = User.query.count() == 0
             user = User(
                 name=name,
                 email=email,
                 password_hash=generate_password_hash(password),
-                is_admin=User.query.count() == 0 or email == configured_admin,
+                is_admin=(email == configured_admin) if configured_admin else is_first_account,
             )
             db.session.add(user)
             db.session.commit()
@@ -648,8 +682,11 @@ def profile():
 
 
 def prepare_database():
-    """Create tables and make the original assignment-only demo database usable."""
+    """Create tables and upgrade the original SQLite demo database when needed."""
     db.create_all()
+    if db.engine.dialect.name != "sqlite":
+        return
+
     inspector = inspect(db.engine)
     tables = inspector.get_table_names()
     user_columns = (
