@@ -90,7 +90,7 @@ StudySync/
    python app.py
 ```
 
-Open <http://127.0.0.1:5000>. The SQLite database is created automatically at `instance/studysync.db`. You can also create the tables manually with `flask --app app init-db`.
+Open [<http://127.0.0.1:5000>](https://study-sync-ruddy-seven.vercel.app/). The SQLite database is created automatically at `instance/studysync.db`. You can also create the tables manually with `flask --app app init-db`.
 
 > **Tip:** without `ADMIN_EMAIL` set, the **first account registered** becomes the administrator.
 
